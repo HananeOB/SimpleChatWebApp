@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
-
-</html>
-
+<html lang="fr"></html>
 <head>
     <meta charset="UTF-8">
     <title>Chat App </title>
@@ -17,9 +14,7 @@
             padding: 5px 10px 5px 12px;
             width: 57%;
             float: right;
-
         }
-
         .msg_cotainer_send {
             background: #ebebeb none repeat scroll 0 0;
             border-radius: 3px;
@@ -31,7 +26,6 @@
             width: 57%;
             float: left;
         }
-
         .time_date {
             color: #000000;
             display: block;
@@ -39,71 +33,50 @@
             margin: 8px 0 0;
             font-family: "Trebuchet MS, sans-serif";
         }
-
-
         .send_btn {
-            position: relative ;
-            background-color: #2082bd ;
-            border: 0 ;
-            color: white ;
+            position: relative;
+            background-color: #2082bd;
+            border: 0;
+            color: white;
             padding: 10px;
-            
-            
-            
-
         }
-        .input_msg{
-            
-            
-			border:0 ;
-			color:black ;
+        .input_msg {
+            border: 0;
+            color: black;
             width: 84%;
-            padding: 10px;  
+            padding: 10px;
         }
-       
     </style>
 </head>
 
 <body>
-    
 
-    
-        <div id="message-container"></div>
-        <form id="send-container">
-            <input class="input_msg" type="text" placeholder="Type your message ..." id="message-input">
-            <button class="send_btn" type="submit" id="send-button">Send</button>
-    
-        </form>
-    
-    
-    
-
-    
+    <div id="message-container"></div>
+    <form id="send-container">
+        <input class="input_msg" type="text" placeholder="Type your message ..." id="message-input">
+        <button class="send_btn" type="submit" id="send-button">Send</button>
+    </form>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
+ 
         var socket = io.connect('http://localhost:8080');
-
         var messageForm = document.getElementById('send-container');
         var messageInput = document.getElementById('message-input');
         var messageContainer = document.getElementById('message-container');
-
-     
         var name = prompt('What is your name?');
-        while(name==''){
+        while (name == '') {
             name = prompt('We need a name, even a fake one!!');
         }
-        
         appendMyMessage('You joined the chat ');
+        
         socket.emit('new-user', name);
 
         socket.on('chat-message', function (data) {
-
             appendMessage(data.name + ' : ' + data.message);
         })
 
         socket.on('new-user-connected', function (data) {
-
             appendMessage(data + ' just joined the chat.');
         })
 
@@ -113,7 +86,6 @@
 
         messageForm.addEventListener('submit', function (e) {
             e.preventDefault();
-
             var message = messageInput.value;
             socket.emit('send-chat-message', message);
             appendMyMessage('You: ' + message);
@@ -130,11 +102,8 @@
             messageTime.innerText = dateFormat;
             messageElement.className = "msg_cotainer";
             messageElement.innerHTML = message;
-
             messageContainer.append(messageElement);
             messageElement.append(messageTime);
-
-
         }
 
         function appendMyMessage(message) {
@@ -147,15 +116,9 @@
             messageTime.innerText = dateFormat;
             messageElement.innerHTML = message;
             messageElement.className = 'msg_cotainer_send';
-
             messageContainer.append(messageElement);
             messageElement.append(messageTime);
-
-
-
         }
-
-
 
     </script>
 
